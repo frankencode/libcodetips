@@ -1,0 +1,21 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+PROJECT(codetips)
+
+FIND_PACKAGE(FTL REQUIRED)
+INCLUDE(UseFTL)
+
+INSTALL(
+	FILES cmake/FindCodetips.cmake cmake/UseCodetips.cmake
+	DESTINATION ${CMAKE_ROOT}/Modules
+)
+
+INSTALL(
+	DIRECTORY ftl
+	DESTINATION include
+	PATTERN *.cpp EXCLUDE
+	PATTERN *.sh EXCLUDE
+	PATTERN *.txt EXCLUDE
+)
+
+SUBDIRS(codetips)
