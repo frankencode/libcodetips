@@ -1,12 +1,16 @@
 SET(CODETIPS_HEADER
-	generics.hpp
-	Registry.hpp
-	haxe.hpp
+	codetips.hpp
+	Instructor.hpp
+	Supervisor.hpp
+	HaxeInstructor.hpp
+	HaxeMessageSyntax.hpp
 )
 
 SET(CODETIPS_SOURCE
-	Registry.cpp
-	haxe.cpp
+	Instructor.cpp
+	Supervisor.cpp
+	HaxeInstructor.cpp
+	HaxeMessageSyntax.cpp
 )
 
 ADD_LIBRARY(codetips
