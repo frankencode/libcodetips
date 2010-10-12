@@ -10,35 +10,91 @@ namespace codetips
 
 using namespace ftl;
 
-class TypeTip: public Instance
+class Argument: public Instance
 {
 public:
-	TypeTip(String type): type_(type) {}
+	Argument(String name, String type)
+		: name_(name),
+		  type_(type)
+	{}
+	inline String name() const { return name_; }
+	inline String type() const { return type_; }
+private:
+	String name_;
 	String type_;
 };
 
-class MemberTip: public TypeTip
+typedef Array< Ref<Argument, Owner> > Arguments;
+
+class Type: public Instance
 {
 public:
-	MemberTip(String name, String type, String description = "")
-		: TypeTip(type),
-		  name_(name),
+	Type(String displayString, String type = 0, Ref<Arguments> arguments = 0)
+		: displayString_(displayString),
+		  type_(type),
+		  arguments_(arguments)
+	{}
+	inline String displayString() const { return displayString_; }
+	inline String type() const { return type_; }
+	inline Ref<Arguments> arguments() const { return arguments_; }
+private:
+	String displayString_;
+	String type_;
+	Ref<Arguments, Owner> arguments_;
+};
+
+class Member: public Instance
+{
+public:
+	Member(String name, Ref<Type> type, String description = "")
+		: name_(name),
+		  type_(type),
 		  description_(description)
 	{}
+	inline String name() const { return name_; }
+	inline Ref<Type> type() const { return type_; }
+	inline String description() const { return description_; }
+private:
 	String name_;
+	Ref<Type, Owner> type_;
 	String description_;
 };
 
-typedef List< Ref<MemberTip, Owner> > MemberTipList;
+typedef Array< Ref<Member, Owner> > Members;
 
-class ClassTip: public Instance
+class Tip: public Instance
 {
 public:
-	ClassTip(Ref<MemberTipList> list)
-		: memberTipList_(list)
+	Tip(int typeId): typeId_(typeId) {}
+	inline int typeId() const { return typeId_; }
+private:
+	int typeId_;
+};
+
+class TypeTip: public Tip
+{
+public:
+	enum { Id = 0 };
+	TypeTip(Ref<Type> type)
+		: Tip(Id),
+		  type_(type)
 	{}
-	
-	Ref<MemberTipList, Owner> memberTipList_;
+	inline Ref<Type> type() const { return type_; }
+private:
+	Ref<Type, Owner> type_;
+};
+
+class MembersTip: public Tip
+{
+public:
+	enum { Id = 1 };
+	MembersTip(Ref<Members> members)
+		: Tip(Id),
+		  members_(members)
+	{}
+	inline Ref<Members> members() const { return members_; }
+private:
+	Ref<Members, Owner> members_;
 };
 
 class Context: public Instance
@@ -48,7 +104,7 @@ public:
 	virtual String language() const = 0;
 	
 	virtual String text() const = 0;
-	virtual String lineText() const = 0;
+	virtual String line(int yr = 0) const = 0;
 	
 	virtual off_t cursorByte() const = 0;
 	virtual off_t cursorChar() const = 0;

@@ -1,4 +1,4 @@
-#include <ftl/PrintDebug.hpp> // debug
+#include <ftl/PrintDebug.hpp> // DEBUG
 #include "codetips.hpp"
 #include "HaxeMessageSyntax.hpp"
 
@@ -54,8 +54,8 @@ HaxeMessageSyntax::HaxeMessageSyntax()
 	memberType_ = DEFINE("MemberType", REPEAT(0, 1, INLINE("Value")));
 	memberDescription_ = DEFINE("MemberDescription", REPEAT(0, 1, INLINE("Value")));
 	
-	memberTip_ =
-		DEFINE("MemberTip",
+	member_ =
+		DEFINE("Member",
 			GLUE(
 				STRING("<i n=\""),
 				REF("MemberName"),
@@ -67,14 +67,14 @@ HaxeMessageSyntax::HaxeMessageSyntax()
 			)
 		);
 	
-	classTip_ =
-		DEFINE("ClassTip",
+	membersTip_ =
+		DEFINE("MembersTip",
 			GLUE(
 				STRING("<list>"),
 				REPEAT(1,
 					GLUE(
 						INLINE("Whitespace"),
-						REF("MemberTip")
+						REF("Member")
 					)
 				),
 				INLINE("Whitespace"),
@@ -88,7 +88,7 @@ HaxeMessageSyntax::HaxeMessageSyntax()
 				INLINE("Whitespace"),
 				CHOICE(
 					REF("TypeTip"),
-					REF("ClassTip")
+					REF("MembersTip")
 				),
 				INLINE("Whitespace")
 			)
@@ -122,48 +122,108 @@ String HaxeMessageSyntax::readValue(String message, Ref<Token> token)
 		return message->copy(token->i0(), token->i1());
 }
 
-Ref<Instance, Owner> HaxeMessageSyntax::parse(String message)
+String HaxeMessageSyntax::docLink(String type)
 {
-	Ref<Instance, Owner> assistance;
+	Ref<StringList, Owner> parts = type.split(".");
+	if (parts->length() > 1) {
+		String path;
+		if (parts->at(0) == "haxe")
+			path = Format("http://haxe.org/api/%%") << parts->join("/");
+		else if (parts->at(0) == "flash")
+			path = Format("http://help.adobe.com/en_US/AS3LCR/Flash_10.0/%%.%%") << parts->join("/") << "html";
+		if (path != "")
+			type = Format("<a href=\"%%\">%%</a>") << path << type;
+	}
+	return type;
+}
+
+String HaxeMessageSyntax::displayString(String type, Ref<Arguments> arguments)
+{
+	Ref<StringList, Owner> parts = new StringList;
+	if (arguments) {
+		*parts << "function(";
+		for (Arguments::Index i = arguments->first(); arguments->def(i); ++i) {
+			Ref<Argument> argument = arguments->at(i);
+			if (argument->name() != "")
+				*parts << argument->name() << ": ";
+			*parts << docLink(argument->type());
+			if (arguments->def(i + 1))
+				*parts << ", ";
+		}
+		*parts << "): ";
+	}
+	*parts << docLink(type);
+	return parts->join();
+}
+
+Ref<Type, Owner> HaxeMessageSyntax::readType(String typeString)
+{
+	Ref<Type, Owner> type;
+	Ref<StringList, Owner> parts = typeString.split(" ")->join().split("->");
+	if (parts->length() > 1) {
+		Ref<Arguments, Owner> arguments = new Arguments(parts->length() - 1);
+		StringList::Index j = parts->first();
+		Arguments::Index i = arguments->first();
+		while (arguments->def(i)) {
+			Ref<StringList, Owner> nameAndType = parts->at(j).split(":");
+			String name, type;
+			if (nameAndType->length() == 2) {
+				name = nameAndType->at(0);
+				type = nameAndType->at(1);
+			}
+			else
+				type = parts->at(j);
+			arguments->set(i, new Argument(name, type));
+			++i; ++j;
+		}
+		String returnType = parts->at(parts->last());
+		type = new Type(displayString(returnType, arguments), returnType, arguments);
+	}
+	else if (parts->at(0)->size() != 0) {
+		type = new Type(displayString(typeString), typeString);
+	}
+	return type;
+}
+
+Ref<Tip, Owner> HaxeMessageSyntax::parse(String message)
+{
+	Ref<Tip, Owner> tip;
 	Ref<Token, Owner> rootToken = match(message);
 	if (rootToken) {
 		Ref<Token> token = rootToken->firstChild();
 		if (token->rule() == typeTip_) {
-			// debug("type tip\n");
 			token = token->firstChild();
 			if (token->rule() == value_) {
-				String type = readValue(message, token);
-				// debug("type = \"%%\"\n", type);
-				assistance = new TypeTip(type);
+				String typeString = readValue(message, token);
+				tip = new TypeTip(readType(typeString));
 			}
 		}
-		else if (token->rule() == classTip_) {
-			// debug("class tip\n");
-			Ref<MemberTipList, Owner> memberTipList = new MemberTipList;
+		else if (token->rule() == membersTip_) {
+			Ref<Members, Owner> members = new Members(token->countChildren());
+			int memberIndex = 0;
 			token = token->firstChild();
 			while (token) {
-				if (token->rule() == memberTip_) {
-					String name, type, description;
-					Ref<Token> child = token->firstChild();
-					while (child) {
-						if (child->rule() == memberName_)
-							name = message->copy(child->i0(), child->i1());
-						else if (child->rule() == memberType_)
-							type = readValue(message, child);
-						else if (child->rule() == memberDescription_)
-							description = message->copy(child->i0(), child->i1());;
-						child = child->nextSibling();
-					}
-					// debug("\"%%\",\"%%\",\"%%\"\n", name, type, description);
-					memberTipList->append(new MemberTip(name, type, description));
+				String name, description;
+				Ref<Type, Owner> type;
+				Ref<Token> child = token->firstChild();
+				while (child) {
+					if (child->rule() == memberName_)
+						name = message->copy(child->i0(), child->i1());
+					else if (child->rule() == memberType_)
+						type = readType(readValue(message, child));
+					else if (child->rule() == memberDescription_)
+						description = message->copy(child->i0(), child->i1());;
+					child = child->nextSibling();
 				}
+				// debug("\"%%\",\"%%\",\"%%\"\n", name, type, description);
+				members->set(memberIndex++, new Member(name, type, description));
 				token = token->nextSibling();
 			}
-			assistance = new ClassTip(memberTipList);
+			tip = new MembersTip(members);
 		}
 	}
 	
-	return assistance;
+	return tip;
 }
 
 } // namespace codetips

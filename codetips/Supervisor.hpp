@@ -1,7 +1,8 @@
 #ifndef CODETIPS_SUPERVISOR_HPP
 #define CODETIPS_SUPERVISOR_HPP
 
-#include <ftl/PrefixTree.hpp>
+#include <ftl/List.hpp>
+#include <ftl/Map.hpp>
 #include <ftl/Singleton.hpp>
 #include "codetips.hpp"
 #include "Instructor.hpp"
@@ -18,7 +19,7 @@ public:
 	void registerInstructor(Ref<Instructor> instructor);
 	Ref<InstructorListByLanguage> instructorListByLanguage() const;
 	
-	Ref<Instance> assist(Ref<Context> context, int modifiers, uchar_t key) const;
+	Ref<Instance, Owner> assist(Ref<Context> context, int modifiers, uchar_t key) const;
 	
 private:
 	friend class Singleton<Supervisor>;

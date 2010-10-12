@@ -10,19 +10,24 @@ namespace ftl {
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(HaxeInstructor)
+CODETIPS_REGISTRATION_HEADER(HaxeCodetips)
 
 class HaxeMessageSyntax;
 
-class HaxeInstructor: public Instructor {
+class HaxeCodetips: public Instructor {
 public:
-	HaxeInstructor();
+	HaxeCodetips();
 	
 	virtual String language() const;
+	virtual String name() const;
+	virtual String displayName() const;
 	virtual String description() const;
-	virtual Ref<Instance, Owner> assist(Ref<Context> context, int modifiers, uchar_t key);
+	
+	virtual Ref<Tip, Owner> assist(Ref<Context> context, int modifiers, uchar_t key);
 	
 private:
+	virtual void update();
+	
 	Ref<ProcessFactory, Owner> processFactory_;
 	Ref<HaxeMessageSyntax, Owner> messageSyntax_;
 };

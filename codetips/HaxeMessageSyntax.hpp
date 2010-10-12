@@ -14,10 +14,13 @@ class HaxeMessageSyntax: public Syntax<ByteArray>::Definition
 public:
 	HaxeMessageSyntax();
 	
-	Ref<Instance, Owner> parse(String message);
+	Ref<Tip, Owner> parse(String message);
 	
 private:
 	String readValue(String message, Ref<Token> token);
+	static String docLink(String type);
+	static String displayString(String type, Ref<Arguments> arguments = 0);
+	Ref<Type, Owner> readType(String typeString);
 	
 	int gt_, lt_;
 	int specialChar_;
@@ -26,8 +29,8 @@ private:
 	int memberName_;
 	int memberType_;
 	int memberDescription_;
-	int memberTip_;
-	int classTip_;
+	int member_;
+	int membersTip_;
 	int haxeTip_;
 };
 

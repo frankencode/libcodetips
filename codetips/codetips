@@ -1,0 +1,7 @@
+#ifndef CODETIPS_CODETIPS
+#define CODETIPS_CODETIPS
+
+#include "codetips.hpp"
+#include "Supervisor.hpp"
+
+#endif // CODETIPS_CODETIPS

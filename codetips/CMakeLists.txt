@@ -1,15 +1,18 @@
 SET(CODETIPS_HEADER
+	codetips
 	codetips.hpp
 	Instructor.hpp
 	Supervisor.hpp
-	HaxeInstructor.hpp
+	HelloWorld.hpp
+	HaxeCodetips.hpp
 	HaxeMessageSyntax.hpp
 )
 
 SET(CODETIPS_SOURCE
 	Instructor.cpp
 	Supervisor.cpp
-	HaxeInstructor.cpp
+	HelloWorld.cpp
+	HaxeCodetips.cpp
 	HaxeMessageSyntax.cpp
 )
 

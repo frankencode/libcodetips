@@ -1,4 +1,3 @@
-#include <ftl/stdio> // DEBUG
 #include "Supervisor.hpp"
 
 namespace codetips
@@ -23,19 +22,19 @@ Ref<InstructorListByLanguage> Supervisor::instructorListByLanguage() const
 	return instructorListByLanguage_;
 }
 
-Ref<Instance> Supervisor::assist(Ref<Context> context, int modifiers, uchar_t key) const
+Ref<Instance, Owner> Supervisor::assist(Ref<Context> context, int modifiers, uchar_t key) const
 {
-	Ref<Instance> assistance = 0;
+	Ref<Instance, Owner> tip = 0;
 	Ref<InstructorList, Owner> list;
 	instructorListByLanguage_->lookup(context->language(), &list);
 	if (list) {
 		InstructorList::Iterator it = list->iterator();
-		while ((it.hasNext()) && (!assistance)) {
+		while ((it.hasNext()) && (!tip)) {
 			Ref<Instructor> instructor = it.next();
-			assistance = instructor->assist(context, modifiers, key);
+			tip = instructor->assist(context, modifiers, key);
 		}
 	}
-	return assistance;
+	return tip;
 }
 
 } // namespace codetips
