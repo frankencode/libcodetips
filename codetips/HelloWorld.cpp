@@ -21,7 +21,7 @@ Ref<Tip, Owner> HelloWorld::assist(Ref<Context> context, int modifiers, uchar_t 
 {
 	Ref<Tip, Owner> tip;
 	if ((modifiers == Shift) && (key == '\t'))
-		tip = new TypeTip(new Type("Hello!"));
+		tip = new TypeTip(new Type(String("Hello!")));
 	return tip;
 }
 
