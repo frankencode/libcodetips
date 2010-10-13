@@ -29,7 +29,7 @@ typedef Array< Ref<Argument, Owner> > Arguments;
 class Type: public Instance
 {
 public:
-	Type(String displayString, String type = 0, Ref<Arguments> arguments = 0)
+	Type(String displayString, String type = "", Ref<Arguments> arguments = 0)
 		: displayString_(displayString),
 		  type_(type),
 		  arguments_(arguments)
