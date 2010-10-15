@@ -64,6 +64,7 @@ static const interpose_t interposers[] \
 
 int codetips_open(const char* path, int flags, mode_t mode)
 {
+	using namespace codetips;
     String redirPath = InterpositionClient::redirectOpen(path, flags);
     return open(redirPath, flags, mode);
 }
