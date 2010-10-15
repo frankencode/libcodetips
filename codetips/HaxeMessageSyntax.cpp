@@ -137,23 +137,36 @@ String HaxeMessageSyntax::docLink(String type)
 	return type;
 }
 
-String HaxeMessageSyntax::displayString(String type, Ref<Arguments> arguments)
+String HaxeMessageSyntax::displayString(String type, Ref<Arguments> arguments, bool broken)
 {
 	Ref<StringList, Owner> parts = new StringList;
 	if (arguments) {
 		*parts << "function(";
+		if (broken)
+			*parts << "<br/>";
 		for (Arguments::Index i = arguments->first(); arguments->def(i); ++i) {
 			Ref<Argument> argument = arguments->at(i);
+			if (broken)
+				*parts << "&nbsp;&nbsp;&nbsp;&nbsp;";
 			if (argument->name() != "")
 				*parts << argument->name() << ": ";
 			*parts << docLink(argument->type());
 			if (arguments->def(i + 1))
 				*parts << ", ";
+			if (broken)
+				*parts << "<br/>";
 		}
 		*parts << "): ";
 	}
 	*parts << docLink(type);
-	return parts->join();
+	if (broken)
+		*parts << "<br/>";
+	String s = parts->join();
+	if ((s->size() > 80) && (!broken)) {
+		if (s.stripTags()->size() > 80)
+			s = displayString(type, arguments, true);
+	}
+	return s;
 }
 
 Ref<Type, Owner> HaxeMessageSyntax::readType(String typeString)

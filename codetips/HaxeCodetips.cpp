@@ -17,7 +17,6 @@ HaxeCodetips::HaxeCodetips()
 	  messageSyntax_(new HaxeMessageSyntax)
 {
 	Path haxe = Path::lookup(Process::env("PATH").split(":"), "haxe", File::Exists|File::Execute);
-	// Path haxe = "/usr/bin/haxe";
 	processFactory_->setExecPath(haxe);
 	processFactory_->setIoPolicy(Process::ForwardOutput|Process::ErrorToOutput);
 	setResource("haxe", haxe);

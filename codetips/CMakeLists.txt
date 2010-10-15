@@ -6,6 +6,8 @@ SET(CODETIPS_HEADER
 	HelloWorld.hpp
 	HaxeCodetips.hpp
 	HaxeMessageSyntax.hpp
+	InterpositionServer.hpp
+	InterpositionClient.hpp
 )
 
 SET(CODETIPS_SOURCE
@@ -14,6 +16,8 @@ SET(CODETIPS_SOURCE
 	HelloWorld.cpp
 	HaxeCodetips.cpp
 	HaxeMessageSyntax.cpp
+	InterpositionServer.cpp
+	InterpositionClient.cpp
 )
 
 ADD_LIBRARY(codetips

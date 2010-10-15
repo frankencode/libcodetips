@@ -19,7 +19,7 @@ public:
 private:
 	String readValue(String message, Ref<Token> token);
 	static String docLink(String type);
-	static String displayString(String type, Ref<Arguments> arguments = 0);
+	static String displayString(String type, Ref<Arguments> arguments = 0, bool broken = false);
 	Ref<Type, Owner> readType(String typeString);
 	
 	int gt_, lt_;
