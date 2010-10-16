@@ -24,7 +24,7 @@ InterpositionServer::~InterpositionServer()
 void InterpositionServer::setup(Ref<EnvMap> map)
 {
 	map->insert("CODETIPS_SOCKET", path_);
-	String libPath = LinkInfo((void*)&codetips_hook).libraryPath();
+	String libPath = LinkInfo((void*)&codetips_hook).libraryPath().replace("codetips", "codetipsclient");
 	#ifdef __MACH__
 	map->insert("DYLD_INSERT_LIBRARIES", libPath);
 	#else

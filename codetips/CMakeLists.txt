@@ -7,7 +7,6 @@ SET(CODETIPS_HEADER
 	HaxeCodetips.hpp
 	HaxeMessageSyntax.hpp
 	InterpositionServer.hpp
-	InterpositionClient.hpp
 )
 
 SET(CODETIPS_SOURCE
@@ -17,7 +16,6 @@ SET(CODETIPS_SOURCE
 	HaxeCodetips.cpp
 	HaxeMessageSyntax.cpp
 	InterpositionServer.cpp
-	InterpositionClient.cpp
 )
 
 ADD_LIBRARY(codetips
@@ -25,6 +23,12 @@ ADD_LIBRARY(codetips
 	${CODETIPS_SOURCE}
 )
 
+ADD_LIBRARY(codetipsclient
+	InterpositionClient.hpp
+	InterpositionClient.cpp
+)
+
 SET_TARGET_PROPERTIES(codetips PROPERTIES VERSION 0.0.1 SOVERSION 0)
+SET_TARGET_PROPERTIES(codetipsclient PROPERTIES VERSION 0.0.1 SOVERSION 0)
 
 INSTALL(TARGETS codetips ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
