@@ -10,7 +10,6 @@ namespace codetips
 {
 
 InterpositionServer::InterpositionServer()
-	: path_(Format("/tmp/codetips_%%.socket") << Process::currentId())
 {
 	debug("InterpositionServer::InterpositionServer()\n");
 	start();
@@ -27,12 +26,19 @@ InterpositionServer::~InterpositionServer()
 	debug("InterpositionServer::~InterpositionServer(): done.\n");
 }
 
-void InterpositionServer::setup(Ref<EnvMap> map)
+String InterpositionServer::socketPath()
 {
-	map->insert("CODETIPS_SOCKET", path_);
-	String libPath = LinkInfo((void*)&codetips_hook).libraryPath().replace("codetips", "codetipsclient");
+	return Format("/tmp/codetips_%%.socket") << Process::currentId();
+}
+
+void InterpositionServer::injectClient(Ref<EnvMap> map)
+{
+	map->insert("CODETIPS_SOCKET", socketPath());
+	String libPath = LinkInfo((void*)&codetips_hook).libraryPath().replace("codetips.", "codetipsclient.");
+	debug("injectClient(): libPath = \"%%\"\n", libPath);
 	#ifdef __MACH__
 	map->insert("DYLD_INSERT_LIBRARIES", libPath);
+	map->insert("DYLD_FORCE_FLAT_NAMESPACE", "");
 	#else
 	map->insert("LD_PRELOAD", libPath);
 	#endif
@@ -41,8 +47,8 @@ void InterpositionServer::setup(Ref<EnvMap> map)
 void InterpositionServer::run()
 {
 	debug("InterpositionServer::run()...\n");
-	try { File(path_).unlink(); } catch(...) {}
-	socket_ = new StreamSocket(new SocketAddress(AF_LOCAL, path_));
+	try { File(socketPath()).unlink(); } catch(...) {}
+	socket_ = new StreamSocket(new SocketAddress(AF_LOCAL, socketPath()));
 	socket_->bind();
 	debug("  bound: socket_->localAddress()->toString() = \"%%\"\n", socket_->localAddress()->toString());
 	socket_->listen();

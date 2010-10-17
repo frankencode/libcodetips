@@ -1,3 +1,4 @@
+#include <stdlib.h> // setenv, unsetenv
 #include <ftl/ProcessFactory.hpp>
 #include <ftl/Dir.hpp>
 #include <ftl/Path.hpp>
@@ -5,6 +6,7 @@
 #include <ftl/PrintDebug.hpp> // debug
 #include "Supervisor.hpp"
 #include "HaxeMessageSyntax.hpp"
+#include "InterpositionServer.hpp"
 #include "HaxeCodetips.hpp"
 
 namespace codetips
@@ -17,9 +19,13 @@ HaxeCodetips::HaxeCodetips()
 	  messageSyntax_(new HaxeMessageSyntax)
 {
 	Path haxe = Path::lookup(Process::env("PATH").split(":"), "haxe", File::Exists|File::Execute);
+	
 	processFactory_->setExecPath(haxe);
 	processFactory_->setIoPolicy(Process::ForwardOutput|Process::ErrorToOutput);
+	InterpositionServer::injectClient(processFactory_->envMap());
+	
 	setResource("haxe", haxe);
+	
 	update();
 }
 
@@ -90,7 +96,6 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 	processFactory_->setOptions(options.split(" "));
 	
 	Ref<Process, Owner> process = processFactory_->produce();
-	
 	String message = process->rawOutput()->readAll();
 	
 	// debug("HaxeCodetips::assist(): message = \"%%\"\n", message);

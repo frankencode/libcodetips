@@ -18,14 +18,13 @@ public:
 	InterpositionServer();
 	~InterpositionServer();
 	
-	void setup(Ref<EnvMap> map);
-	
+	static String socketPath();
+	static void injectClient(Ref<EnvMap> map);
 	virtual String redirectOpen(String path, int flags) = 0;
 	
 private:
 	virtual void run();
 	
-	String path_;
 	Ref<StreamSocket, Owner> socket_;
 	Semaphore done_;
 };

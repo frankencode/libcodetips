@@ -84,13 +84,15 @@ HaxeMessageSyntax::HaxeMessageSyntax()
 	
 	haxeTip_ =
 		DEFINE("HaxeTip",
-			GLUE(
-				INLINE("Whitespace"),
-				CHOICE(
-					REF("TypeTip"),
-					REF("MembersTip")
-				),
-				INLINE("Whitespace")
+			FIND(
+				GLUE(
+					INLINE("Whitespace"),
+					CHOICE(
+						REF("TypeTip"),
+						REF("MembersTip")
+					),
+					INLINE("Whitespace")
+				)
 			)
 		);
 	
