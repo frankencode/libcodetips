@@ -3,6 +3,7 @@
 
 #include <ftl/String.hpp>
 #include <ftl/Thread.hpp>
+#include <ftl/Process.hpp>
 #include <ftl/StreamSocket.hpp>
 #include <ftl/Semaphore.hpp>
 

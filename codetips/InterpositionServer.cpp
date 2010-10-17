@@ -1,6 +1,6 @@
 #include <unistd.h> // __MACH__?
+#include <ftl/PrintDebug.hpp> // DEBUG
 #include <ftl/Format.hpp>
-#include <ftl/Process.hpp>
 #include <ftl/LinkInfo.hpp>
 #include "InterpositionServer.hpp"
 
@@ -12,13 +12,19 @@ namespace codetips
 InterpositionServer::InterpositionServer()
 	: path_(Format("/tmp/codetips_%%.socket") << Process::currentId())
 {
+	debug("InterpositionServer::InterpositionServer()\n");
 	start();
 }
 
 InterpositionServer::~InterpositionServer()
 {
+	debug("InterpositionServer::~InterpositionServer(): finalize...\n");
 	done_.release();
+	debug("InterpositionServer::~InterpositionServer(): sa1\n");
 	try { kill(); } catch (...) {}
+	debug("InterpositionServer::~InterpositionServer(): wait...\n");
+	wait();
+	debug("InterpositionServer::~InterpositionServer(): done.\n");
 }
 
 void InterpositionServer::setup(Ref<EnvMap> map)
@@ -34,13 +40,17 @@ void InterpositionServer::setup(Ref<EnvMap> map)
 
 void InterpositionServer::run()
 {
+	debug("InterpositionServer::run()...\n");
 	try { File(path_).unlink(); } catch(...) {}
 	socket_ = new StreamSocket(new SocketAddress(AF_LOCAL, path_));
 	socket_->bind();
+	debug("  bound: socket_->localAddress()->toString() = \"%%\"\n", socket_->localAddress()->toString());
 	socket_->listen();
+	debug("  waiting for connection...\n");
 	while (!done_.tryAcquire()) {
 		try {
 			Ref<StreamSocket, Owner> stream = socket_->accept();
+			debug("  ooh...\n");
 			Ref<StringList, Owner> parts = stream->readAll().split(",");
 			if (parts->length() == 2) {
 				String path = parts->at(0);
@@ -58,6 +68,7 @@ void InterpositionServer::run()
 			break;
 		}
 	}
+	debug("InterpositionServer::run(): done.\n");
 }
 
 } // namespace codetips
