@@ -35,10 +35,11 @@ void InterpositionServer::injectClient(Ref<EnvMap> map)
 {
 	map->insert("CODETIPS_SOCKET", socketPath());
 	String libPath = LinkInfo((void*)&codetips_hook).libraryPath().replace("codetips.", "codetipsclient.");
-	debug("injectClient(): libPath = \"%%\"\n", libPath);
+	print("InterpositionServer::injectClient(): libPath = \"%%\"\n", libPath);
 	#ifdef __MACH__
-	map->insert("DYLD_INSERT_LIBRARIES", libPath);
+	print("setting DYLD_FORCE_FLAT_NAMESPACE, DYLD_INSERT_LIBRARIES\n");
 	map->insert("DYLD_FORCE_FLAT_NAMESPACE", "");
+	map->insert("DYLD_INSERT_LIBRARIES", libPath);
 	#else
 	map->insert("LD_PRELOAD", libPath);
 	#endif

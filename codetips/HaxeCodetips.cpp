@@ -98,7 +98,7 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 	Ref<Process, Owner> process = processFactory_->produce();
 	String message = process->rawOutput()->readAll();
 	
-	// debug("HaxeCodetips::assist(): message = \"%%\"\n", message);
+	// print("HaxeCodetips::assist(): message = \"%%\"\n", message);
 	
 	return messageSyntax_->parse(message);
 }
