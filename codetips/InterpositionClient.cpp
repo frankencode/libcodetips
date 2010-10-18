@@ -6,6 +6,10 @@
 #include <fcntl.h>
 #include <ftl/PrintDebug.hpp> // DEBUG
 #include <ftl/LocalStatic.hpp>
+#include <ftl/Process.hpp>
+#include <ftl/StreamSocket.hpp>
+#include <ftl/LineSink.hpp>
+#include <ftl/LineSource.hpp>
 #include "InterpositionClient.hpp"
 
 namespace codetips
@@ -13,8 +17,15 @@ namespace codetips
 
 String InterpositionClient::redirectOpen(String path, int flags)
 {
-	print("InterpositionClient::redirectOpen(): path = \"%%\"\n", path);
-	return path;
+	Ref<SocketAddress, Owner> address = new SocketAddress(AF_LOCAL, Process::env("CODETIPS_SOCKET"));
+	Ref<StreamSocket, Owner> stream = new StreamSocket(address);
+	stream->connect();
+	LineSink sink(stream);
+	LineSource source(stream);
+	sink.writeLine(Format("%%,%%") << Path(path).absolute() << flags);
+	String redirPath = source.readLine();
+	print("InterpositionClient::redirectOpen(): \"%%\" => \"%%\"\n", path, redirPath);
+	return redirPath;
 }
 
 class OpenFunction {

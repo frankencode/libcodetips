@@ -24,7 +24,13 @@ void Instructor::setResource(String key, Variant value) {
 }
 
 Ref<Log> Instructor::log() {
-	return (log_) ? log_ : log_ = new Log(File::temp());
+	if (!log_) {
+		Ref<File, Owner> tmp = File::temp();
+		tmp->unlinkWhenDone();
+		log_ = new Log(tmp);
+		
+	}
+	return log_;
 }
 
 void Instructor::update()

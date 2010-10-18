@@ -2,6 +2,8 @@
 #include <ftl/PrintDebug.hpp> // DEBUG
 #include <ftl/Format.hpp>
 #include <ftl/LinkInfo.hpp>
+#include <ftl/LineSource.hpp>
+#include <ftl/LineSink.hpp>
 #include "InterpositionServer.hpp"
 
 int codetips_hook;
@@ -57,12 +59,16 @@ void InterpositionServer::run()
 	while (!done_.tryAcquire()) {
 		try {
 			Ref<StreamSocket, Owner> stream = socket_->accept();
-			debug("  ooh...\n");
-			Ref<StringList, Owner> parts = stream->readAll().split(",");
+			// debug("  ooh...\n");
+			LineSource source(stream);
+			LineSink sink(stream);
+			Ref<StringList, Owner> parts = source.readLine().split(",");
 			if (parts->length() == 2) {
 				String path = parts->at(0);
 				int flags = parts->at(1).toInt();
-				stream->write(redirectOpen(path, flags));
+				String redirPath = redirectOpen(path, flags);
+				// debug("  redirPath = \"%%\"\n", redirPath);
+				sink.writeLine(redirPath);
 			}
 			/* NB: May be signalled in two different areas:
 			 *     [A] in kernel (accept(2), read(2) or write(2))

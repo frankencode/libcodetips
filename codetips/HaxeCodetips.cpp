@@ -1,4 +1,3 @@
-#include <stdlib.h> // setenv, unsetenv
 #include <ftl/ProcessFactory.hpp>
 #include <ftl/Dir.hpp>
 #include <ftl/Path.hpp>
@@ -91,14 +90,14 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 	
 	String options = Format("%% %% --display %%@%%") << projectFile << className << context->path() << context->cursorByte();
 	
-	// debug("HaxeCodetips::assist(): options = \"%%\"\n", options);
+	debug("HaxeCodetips::assist(): options = \"%%\"\n", options);
 	
 	processFactory_->setOptions(options.split(" "));
 	
 	Ref<Process, Owner> process = processFactory_->produce();
 	String message = process->rawOutput()->readAll();
 	
-	// print("HaxeCodetips::assist(): message = \"%%\"\n", message);
+	print("HaxeCodetips::assist(): message = \"%%\"\n", message);
 	
 	return messageSyntax_->parse(message);
 }
