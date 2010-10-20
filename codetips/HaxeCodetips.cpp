@@ -48,7 +48,7 @@ String HaxeCodetips::language() const { return "haxe"; }
 String HaxeCodetips::name() const { return "codetips"; }
 String HaxeCodetips::displayName() const { return "haXe Code Tips"; }
 
-String HaxeCodetips::description() const { return "Provides code tips for haxe. Press <Tab> key after \".\" for invocation."; }
+String HaxeCodetips::description() const { return "Provides code tips for haxe. Press TAB key after \".\" or \"(\" for invocation."; }
 
 Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_t key)
 {
