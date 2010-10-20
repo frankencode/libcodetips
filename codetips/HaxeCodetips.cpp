@@ -48,7 +48,7 @@ String HaxeCodetips::language() const { return "haxe"; }
 String HaxeCodetips::name() const { return "codetips"; }
 String HaxeCodetips::displayName() const { return "haXe Code Tips"; }
 
-String HaxeCodetips::description() const { return "Provides code tips for haxe, when pressing the magic key (SHIFT-Tab)."; }
+String HaxeCodetips::description() const { return "Provides code tips for haxe. Press <Tab> key after \".\" for invocation."; }
 
 Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_t key)
 {
@@ -56,8 +56,6 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 	     ((modifiers != Shift) && (modifiers != 0)) ||
 	     (processFactory_->execPath() == "") )
 	     return 0;
-	
-	Ref<Instance, Owner> tip;
 	
 	if (modifiers == 0) {
 		String line = context->line();
@@ -83,23 +81,25 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 		}
 	}
 	
-	if (projectFile == "") return tip;
+	if (projectFile == "") return 0;
 	
 	processFactory_->setWorkingDirectory(Path(projectFile).reduce());
 	// debug("HaxeCodetips::assist(): processFactory_->execPath() = \"%%\"\n", processFactory_->execPath());
 	
 	String options = Format("%% %% --display %%@%%") << projectFile << className << context->path() << context->cursorByte();
-	
-	debug("HaxeCodetips::assist(): options = \"%%\"\n", options);
+	// debug("HaxeCodetips::assist(): options = \"%%\"\n", options);
 	
 	processFactory_->setOptions(options.split(" "));
 	
 	Ref<Process, Owner> process = processFactory_->produce();
 	String message = process->rawOutput()->readAll();
+	// debug("HaxeCodetips::assist(): message = \"%%\"\n", message);
 	
-	print("HaxeCodetips::assist(): message = \"%%\"\n", message);
+	Ref<Tip, Owner> tip = messageSyntax_->parse(message);
+	if ((!tip) && (message != ""))
+		tip = new TypeTip(new Type(message));
 	
-	return messageSyntax_->parse(message);
+	return tip;
 }
 
 } // namespace codetips

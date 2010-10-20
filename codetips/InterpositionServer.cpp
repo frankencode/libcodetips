@@ -13,19 +13,14 @@ namespace codetips
 
 InterpositionServer::InterpositionServer()
 {
-	debug("InterpositionServer::InterpositionServer()\n");
 	start();
 }
 
 InterpositionServer::~InterpositionServer()
 {
-	debug("InterpositionServer::~InterpositionServer(): finalize...\n");
 	done_.release();
-	debug("InterpositionServer::~InterpositionServer(): sa1\n");
 	try { kill(); } catch (...) {}
-	debug("InterpositionServer::~InterpositionServer(): wait...\n");
 	wait();
-	debug("InterpositionServer::~InterpositionServer(): done.\n");
 }
 
 String InterpositionServer::socketPath()
@@ -37,9 +32,7 @@ void InterpositionServer::injectClient(Ref<EnvMap> map)
 {
 	map->insert("CODETIPS_SOCKET", socketPath());
 	String libPath = LinkInfo((void*)&codetips_hook).libraryPath().replace("codetips.", "codetipsclient.");
-	print("InterpositionServer::injectClient(): libPath = \"%%\"\n", libPath);
 	#ifdef __MACH__
-	print("setting DYLD_FORCE_FLAT_NAMESPACE, DYLD_INSERT_LIBRARIES\n");
 	map->insert("DYLD_FORCE_FLAT_NAMESPACE", "");
 	map->insert("DYLD_INSERT_LIBRARIES", libPath);
 	#else
@@ -49,27 +42,18 @@ void InterpositionServer::injectClient(Ref<EnvMap> map)
 
 void InterpositionServer::run()
 {
-	debug("InterpositionServer::run()...\n");
 	try { File(socketPath()).unlink(); } catch(...) {}
 	socket_ = new StreamSocket(new SocketAddress(AF_LOCAL, socketPath()));
 	socket_->bind();
-	debug("  bound: socket_->localAddress()->toString() = \"%%\"\n", socket_->localAddress()->toString());
 	socket_->listen();
-	debug("  waiting for connection...\n");
 	while (!done_.tryAcquire()) {
 		try {
 			Ref<StreamSocket, Owner> stream = socket_->accept();
-			// debug("  ooh...\n");
 			LineSource source(stream);
 			LineSink sink(stream);
-			Ref<StringList, Owner> parts = source.readLine().split(",");
-			if (parts->length() == 2) {
-				String path = parts->at(0);
-				int flags = parts->at(1).toInt();
-				String redirPath = redirectOpen(path, flags);
-				// debug("  redirPath = \"%%\"\n", redirPath);
-				sink.writeLine(redirPath);
-			}
+			String path = source.readLine();
+			String redirPath = redirectOpen(path);
+			sink.writeLine(redirPath);
 			/* NB: May be signalled in two different areas:
 			 *     [A] in kernel (accept(2), read(2) or write(2))
 			 *     [B] during userlevel code execution (between the calls above)
@@ -81,7 +65,6 @@ void InterpositionServer::run()
 			break;
 		}
 	}
-	debug("InterpositionServer::run(): done.\n");
 }
 
 } // namespace codetips

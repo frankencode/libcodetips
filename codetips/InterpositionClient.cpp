@@ -22,10 +22,8 @@ String InterpositionClient::redirectOpen(String path, int flags)
 	stream->connect();
 	LineSink sink(stream);
 	LineSource source(stream);
-	sink.writeLine(Format("%%,%%") << Path(path).absolute() << flags);
-	String redirPath = source.readLine();
-	print("InterpositionClient::redirectOpen(): \"%%\" => \"%%\"\n", path, redirPath);
-	return redirPath;
+	sink.writeLine(Path(path).absolute());
+	return source.readLine();
 }
 
 class OpenFunction {

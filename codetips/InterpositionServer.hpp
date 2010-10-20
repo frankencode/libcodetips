@@ -20,7 +20,7 @@ public:
 	
 	static String socketPath();
 	static void injectClient(Ref<EnvMap> map);
-	virtual String redirectOpen(String path, int flags) = 0;
+	virtual String redirectOpen(String path) = 0;
 	
 private:
 	virtual void run();
