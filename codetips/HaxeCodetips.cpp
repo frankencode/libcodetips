@@ -86,10 +86,10 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 	processFactory_->setWorkingDirectory(Path(projectFile).reduce());
 	// debug("HaxeCodetips::assist(): processFactory_->execPath() = \"%%\"\n", processFactory_->execPath());
 	
-	String options = Format("%% %% --display %%@%%") << projectFile << className << context->path() << context->cursorByte();
+	String options = Format("%%,%%,--display,%%@%%") << projectFile << className << context->path() << context->cursorByte();
 	// debug("HaxeCodetips::assist(): options = \"%%\"\n", options);
 	
-	processFactory_->setOptions(options.split(" "));
+	processFactory_->setOptions(options.split(","));
 	
 	Ref<Process, Owner> process = processFactory_->produce();
 	String message = process->rawOutput()->readAll();

@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <ftl/PrintDebug.hpp> // DEBUG
+#include <ftl/Path.hpp>
 #include <ftl/LocalStatic.hpp>
 #include <ftl/Process.hpp>
 #include <ftl/StreamSocket.hpp>
@@ -29,7 +29,6 @@ String InterpositionClient::redirectOpen(String path, int flags)
 class OpenFunction {
 public:
 	typedef int (*Pointer)(const char* path, int flags, ...);
-	
 	OpenFunction()
 		: ptr_((Pointer)dlsym(RTLD_NEXT, "open"))
 	{}
@@ -38,7 +37,7 @@ public:
 
 } // namespace codetips
 
-int open(const char* path, int flags, ...)
+__attribute__((visibility("default"))) int open(const char* path, int flags, ...)
 {
 	using namespace codetips;
 	String redirPath = InterpositionClient::redirectOpen(path, flags);
@@ -56,7 +55,3 @@ int open(const char* path, int flags, ...)
 	}
 	return ret;
 }
-
-#ifdef __MACH__
-char** environ; // link HACK
-#endif
