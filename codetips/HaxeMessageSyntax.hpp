@@ -1,3 +1,10 @@
+/*
+ * HaxeMessageSyntax.hpp -- parser for haxe compiler messages
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
 #ifndef CODETIPS_HAXEMESSAGESYNTAX_HPP
 #define CODETIPS_HAXEMESSAGESYNTAX_HPP
 

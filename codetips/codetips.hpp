@@ -1,3 +1,10 @@
+/*
+ * codetips.hpp -- generic types
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
 #ifndef CODETIPS_CODETIPS_HPP
 #define CODETIPS_CODETIPS_HPP
 

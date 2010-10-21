@@ -1,9 +1,18 @@
+/*
+ * InterpositionClient.cpp -- file open interposition client
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include <unistd.h> // __MACH__?
 #include <dlfcn.h>
 #include <stdarg.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+// #include <ftl/PrintDebug.hpp> // DEBUG
 #include <ftl/Path.hpp>
 #include <ftl/LocalStatic.hpp>
 #include <ftl/Process.hpp>
@@ -37,7 +46,8 @@ public:
 
 } // namespace codetips
 
-__attribute__((visibility("default"))) int open(const char* path, int flags, ...)
+// __attribute__((visibility("default")))
+int open(const char* path, int flags, ...)
 {
 	using namespace codetips;
 	String redirPath = InterpositionClient::redirectOpen(path, flags);

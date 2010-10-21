@@ -1,3 +1,10 @@
+/*
+ * Supervisor.hpp -- singleton which manages the instructors
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
 #ifndef CODETIPS_SUPERVISOR_HPP
 #define CODETIPS_SUPERVISOR_HPP
 

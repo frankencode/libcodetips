@@ -1,3 +1,10 @@
+/*
+ * InterpositionServer.hpp -- file open interposition server
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
 #ifndef CODETIPS_INTERPOSITIONSERVER_HPP
 #define CODETIPS_INTERPOSITIONSERVER_HPP
 

@@ -1,3 +1,11 @@
+/*
+ * HaxeCodetips.cpp -- haxe codetips generator
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include <ftl/ProcessFactory.hpp>
 #include <ftl/Dir.hpp>
 #include <ftl/Path.hpp>

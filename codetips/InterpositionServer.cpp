@@ -1,3 +1,11 @@
+/*
+ * InterpositionServer.cpp -- file open interposition server
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include <unistd.h> // __MACH__?
 #include <ftl/PrintDebug.hpp> // DEBUG
 #include <ftl/Format.hpp>

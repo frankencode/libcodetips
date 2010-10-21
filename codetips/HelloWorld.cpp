@@ -1,3 +1,11 @@
+/*
+ * HelloWorld.cpp -- dummy instructor for testing
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include <ftl/PrintDebug.hpp>
 #include "Supervisor.hpp"
 #include "HelloWorld.hpp"
@@ -15,12 +23,12 @@ HelloWorld::HelloWorld()
 String HelloWorld::language() const { return "plain"; }
 String HelloWorld::name() const { return "test"; }
 String HelloWorld::displayName() const { return "Test Instructor"; }
-String HelloWorld::description() const { return "Testing module. Says 'Hello' when pressing the magic key (SHIFT-Tab)."; }
+String HelloWorld::description() const { return "Testing module. Says 'Hello' when pressing the magic key (Alt-Tab)."; }
 
 Ref<Tip, Owner> HelloWorld::assist(Ref<Context> context, int modifiers, uchar_t key)
 {
 	Ref<Tip, Owner> tip;
-	if ((modifiers == Shift) && (key == '\t'))
+	if ((modifiers == Alt) && (key == '\t'))
 		tip = new TypeTip(new Type("Hello!"));
 	return tip;
 }

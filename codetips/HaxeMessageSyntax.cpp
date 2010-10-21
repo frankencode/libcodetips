@@ -1,3 +1,11 @@
+/*
+ * HaxeMessageSyntax.cpp -- parser for haxe compiler messages
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include <ftl/PrintDebug.hpp> // DEBUG
 #include "codetips.hpp"
 #include "HaxeMessageSyntax.hpp"

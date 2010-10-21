@@ -1,3 +1,11 @@
+/*
+ * Supervisor.cpp -- singleton which manages the instructors
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include "Supervisor.hpp"
 
 namespace codetips

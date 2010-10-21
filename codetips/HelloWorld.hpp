@@ -1,3 +1,10 @@
+/*
+ * HelloWorld.hpp -- dummy instructor for testing
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
 #ifndef CODETIPS_HELLOINSTRUCTOR_HPP
 #define CODETIPS_HELLOINSTRUCTOR_HPP
 

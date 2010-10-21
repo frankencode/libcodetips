@@ -1,3 +1,10 @@
+/*
+ * Instructor.hpp -- language-specific codetips generator
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
 #ifndef CODETIPS_INSTRUCTOR_HPP
 #define CODETIPS_INSTRUCTOR_HPP
 

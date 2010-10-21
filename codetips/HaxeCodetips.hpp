@@ -1,3 +1,10 @@
+/*
+ * HaxeCodetips.hpp -- haxe codetips generator
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
 #ifndef CODETIPS_HAXEINSTRUCTOR_HPP
 #define CODETIPS_HAXEINSTRUCTOR_HPP
 

@@ -1,3 +1,11 @@
+/*
+ * Instructor.cpp -- language-specific codetips generator
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include <ftl/File.hpp>
 #include "Instructor.hpp"
 
