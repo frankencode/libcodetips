@@ -1,11 +1,13 @@
-Cmake is our build tool.
+CMake is our build tool.
 For more details see www.cmake.org.
 
 Quick instructions:
 
 1) Get and build libftl as static lib
 
-...
+$ git clone https://unclefrank@github.com/unclefrank/libftl.git libftl
+$ cd libftl; git checkout codetips-0.0.1
+# go through INSTALL file of FTL
 
 2) Build libcodetips using the static libftl
 
