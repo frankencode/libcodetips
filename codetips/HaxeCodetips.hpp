@@ -21,7 +21,7 @@ CODETIPS_REGISTRATION_HEADER(HaxeCodetips)
 
 class HaxeMessageSyntax;
 
-class HaxeCodetips: public Instructor {
+class HaxeCodetips: public Assistant {
 public:
 	HaxeCodetips();
 	

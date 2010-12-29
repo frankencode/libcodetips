@@ -1,21 +1,23 @@
 SET(CODETIPS_HEADER
 	codetips
 	codetips.hpp
-	Instructor.hpp
-	Supervisor.hpp
+	Assistant.hpp
+	AssistantManager.hpp
 	HelloWorld.hpp
 	HaxeCodetips.hpp
 	HaxeMessageSyntax.hpp
 	InterpositionServer.hpp
+	CxxAutotext.hpp
 )
 
 SET(CODETIPS_SOURCE
-	Instructor.cpp
-	Supervisor.cpp
+	Assistant.cpp
+	AssistantManager.cpp
 	HelloWorld.cpp
 	HaxeCodetips.cpp
 	HaxeMessageSyntax.cpp
 	InterpositionServer.cpp
+	CxxAutotext.cpp
 )
 
 ADD_LIBRARY(codetips

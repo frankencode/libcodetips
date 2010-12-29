@@ -111,18 +111,19 @@ public:
 	virtual String language() const = 0;
 	
 	virtual String text() const = 0;
-	virtual String line(int yr = 0) const = 0;
+	virtual String copyLine(int line = 0) const = 0;
+	virtual int numberOfLines() const = 0;
+	virtual String indent() const = 0;
 	
-	virtual off_t cursorByte() const = 0;
-	virtual off_t cursorChar() const = 0;
-	virtual int cursorLine() const = 0;
-	virtual int cursorColumn() const = 0;
+	virtual int bytePos() const = 0;
+	virtual int pos() const = 0;
+	virtual int line() const = 0;
+	virtual int linePos() const = 0;
 	
-	virtual void moveCursor(int delta) = 0;
-	virtual void select(int index0, int index1) = 0;
-	virtual String copy(int index0, int index1) = 0;
-	virtual void cut(int index0, int index1) = 0;
-	virtual void paste(String text) = 0;
+	virtual void insert(String text) = 0;
+	virtual void move(int delta) = 0;
+	virtual void select(int delta) = 0;
+	virtual String copy(int delta) const = 0;
 };
 
 } // namespace codetips

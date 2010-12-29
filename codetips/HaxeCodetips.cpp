@@ -11,7 +11,7 @@
 #include <ftl/Path.hpp>
 #include <ftl/Format.hpp>
 #include <ftl/PrintDebug.hpp> // debug
-#include "Supervisor.hpp"
+#include "AssistantManager.hpp"
 #include "HaxeMessageSyntax.hpp"
 #include "InterpositionServer.hpp"
 #include "HaxeCodetips.hpp"
@@ -66,9 +66,10 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 	     return 0;
 	
 	if (modifiers == 0) {
-		String line = context->line();
-		if (context->cursorColumn() == 0) return 0;
-		char ch = line.get(line.first() + context->cursorColumn() - 1);
+		String line = context->copyLine(context->line());
+		int x = context->linePos();
+		if (x == 0) return 0;
+		char ch = line.get(line.first() + x - 1);
 		if ((ch != '.') && (ch != '(')) return 0;
 	}
 	
@@ -94,7 +95,7 @@ Ref<Tip, Owner> HaxeCodetips::assist(Ref<Context> context, int modifiers, uchar_
 	processFactory_->setWorkingDirectory(Path(projectFile).reduce());
 	// debug("HaxeCodetips::assist(): processFactory_->execPath() = \"%%\"\n", processFactory_->execPath());
 	
-	String options = Format("%%,%%,--display,%%@%%") << projectFile << className << context->path() << context->cursorByte();
+	String options = Format("%%,%%,--display,%%@%%") << projectFile << className << context->path() << context->bytePos();
 	// debug("HaxeCodetips::assist(): options = \"%%\"\n", options);
 	
 	processFactory_->setOptions(options.split(","));

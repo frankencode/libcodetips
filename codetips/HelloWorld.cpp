@@ -1,5 +1,5 @@
 /*
- * HelloWorld.cpp -- dummy instructor for testing
+ * HelloWorld.cpp -- dummy assistant for testing
  *
  * Copyright (c) 2010, Frank Mertens
  *
@@ -7,7 +7,7 @@
  */
 
 #include <ftl/PrintDebug.hpp>
-#include "Supervisor.hpp"
+#include "AssistantManager.hpp"
 #include "HelloWorld.hpp"
 
 namespace codetips
@@ -22,7 +22,7 @@ HelloWorld::HelloWorld()
 
 String HelloWorld::language() const { return "plain"; }
 String HelloWorld::name() const { return "test"; }
-String HelloWorld::displayName() const { return "Test Instructor"; }
+String HelloWorld::displayName() const { return "Test Assistant"; }
 String HelloWorld::description() const { return "Testing module. Says 'Hello' when pressing the magic key (Alt-Tab)."; }
 
 Ref<Tip, Owner> HelloWorld::assist(Ref<Context> context, int modifiers, uchar_t key)

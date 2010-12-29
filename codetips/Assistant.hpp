@@ -1,12 +1,12 @@
 /*
- * Instructor.hpp -- language-specific codetips generator
+ * Assistant.hpp -- language-specific codetips and autotext generator
  *
  * Copyright (c) 2010, Frank Mertens
  *
  * See ../COPYING for the license.
  */
-#ifndef CODETIPS_INSTRUCTOR_HPP
-#define CODETIPS_INSTRUCTOR_HPP
+#ifndef CODETIPS_ASSISTANT_HPP
+#define CODETIPS_ASSISTANT_HPP
 
 #include <ftl/Map.hpp>
 #include <ftl/Variant.hpp>
@@ -20,11 +20,11 @@ typedef Map<String, Variant> ResourceMap;
 typedef List<ResourceMap::Item> ResourceList;
 typedef LineSink Log;
 
-class Instructor: public Instance
+class Assistant: public Instance
 {
 public:
-	Instructor();
-	virtual ~Instructor() {}
+	Assistant();
+	virtual ~Assistant() {}
 	
 	virtual String language() const = 0;
 	virtual String name() const = 0;
@@ -49,20 +49,20 @@ private:
 	Ref<Log, Owner> log_;
 };
 
-#define CODETIPS_REGISTRATION_HEADER(FieldInstructor) \
-class FieldInstructor; \
-class FieldInstructor ## Registration { \
+#define CODETIPS_REGISTRATION_HEADER(SpecialAssistant) \
+class SpecialAssistant; \
+class SpecialAssistant ## Registration { \
 public: \
-	FieldInstructor ## Registration(); \
+	SpecialAssistant ## Registration(); \
 }; \
 \
-namespace { FieldInstructor ## Registration registration_; }
+namespace { SpecialAssistant ## Registration registration_; }
 
-#define CODETIPS_REGISTRATION_IMPL(FieldInstructor) \
-FieldInstructor ## Registration::FieldInstructor ## Registration() { \
-	Supervisor::instance()->registerInstructor(new FieldInstructor); \
+#define CODETIPS_REGISTRATION_IMPL(SpecialAssistant) \
+SpecialAssistant ## Registration::SpecialAssistant ## Registration() { \
+	AssistantManager::instance()->registerAssistant(new SpecialAssistant); \
 }
 
 } // namespace codetips
 
-#endif // CODETIPS_INSTRUCTOR_HPP
+#endif // CODETIPS_ASSISTANT_HPP

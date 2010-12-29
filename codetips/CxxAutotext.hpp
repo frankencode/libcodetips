@@ -1,23 +1,23 @@
 /*
- * HelloWorld.hpp -- dummy assistant for testing
+ * CxxAutotext.hpp -- C++ autotext generator
  *
  * Copyright (c) 2010, Frank Mertens
  *
  * See ../COPYING for the license.
  */
-#ifndef CODETIPS_HELLOWORLD_HPP
-#define CODETIPS_HELLOWORLD_HPP
+#ifndef CODETIPS_CXXAUTOTEXT_HPP
+#define CODETIPS_CXXAUTOTEXT_HPP
 
 #include "codetips.hpp"
 
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(HelloWorld)
+CODETIPS_REGISTRATION_HEADER(CxxAutotext)
 
-class HelloWorld: public Assistant {
+class CxxAutotext: public Assistant {
 public:
-	HelloWorld();
+	CxxAutotext();
 	
 	virtual String language() const;
 	virtual String name() const;
@@ -28,4 +28,4 @@ public:
 
 } // namespace codetips
 
-#endif // CODETIPS_HELLOWORLD_HPP
+#endif // CODETIPS_CXXAUTOTEXT_HPP

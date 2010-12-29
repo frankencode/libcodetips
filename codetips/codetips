@@ -9,6 +9,6 @@
 #define CODETIPS_CODETIPS
 
 #include "codetips.hpp"
-#include "Supervisor.hpp"
+#include "AssistantManager.hpp"
 
 #endif // CODETIPS_CODETIPS

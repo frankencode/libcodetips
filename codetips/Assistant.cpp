@@ -1,5 +1,5 @@
 /*
- * Instructor.cpp -- language-specific codetips generator
+ * Assistant.cpp -- language-specific codetips and autotext generator
  *
  * Copyright (c) 2010, Frank Mertens
  *
@@ -7,21 +7,21 @@
  */
 
 #include <ftl/File.hpp>
-#include "Instructor.hpp"
+#include "Assistant.hpp"
 
 namespace codetips
 {
 
-Instructor::Instructor()
+Assistant::Assistant()
 	: resourceMap_(new ResourceMap),
 	  resourceList_(new ResourceList)
 {}
 
-Variant Instructor::resource(String key) const {
+Variant Assistant::resource(String key) const {
 	return resourceMap_->get(key);
 }
 
-void Instructor::setResource(String key, Variant value) {
+void Assistant::setResource(String key, Variant value) {
 	if (resourceMap_->insert(key, value)) {
 		resourceList_->append(ResourceList::Item(key, value));
 	}
@@ -31,7 +31,7 @@ void Instructor::setResource(String key, Variant value) {
 	}
 }
 
-Ref<Log> Instructor::log() {
+Ref<Log> Assistant::log() {
 	if (!log_) {
 		Ref<File, Owner> tmp = File::temp();
 		tmp->unlinkWhenDone();
@@ -41,10 +41,10 @@ Ref<Log> Instructor::log() {
 	return log_;
 }
 
-void Instructor::update()
+void Assistant::update()
 {}
 
-Ref<ResourceMap> Instructor::resourceMap() { return resourceMap_; }
-Ref<ResourceList> Instructor::resourceList() { return resourceList_; }
+Ref<ResourceMap> Assistant::resourceMap() { return resourceMap_; }
+Ref<ResourceList> Assistant::resourceList() { return resourceList_; }
 
 } // namespace codetips
