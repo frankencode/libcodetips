@@ -9,6 +9,9 @@ SET(CODETIPS_HEADER
 	InterpositionServer.hpp
 	CxxAutotext.hpp
 	RubyAutotext.hpp
+	PythonAutotext.hpp
+	XmlAutotext.hpp
+	XmlOpenTagSyntax.hpp
 )
 
 SET(CODETIPS_SOURCE
@@ -20,6 +23,9 @@ SET(CODETIPS_SOURCE
 	InterpositionServer.cpp
 	CxxAutotext.cpp
 	RubyAutotext.cpp
+	PythonAutotext.cpp
+	XmlAutotext.cpp
+	XmlOpenTagSyntax.cpp
 )
 
 ADD_LIBRARY(codetips

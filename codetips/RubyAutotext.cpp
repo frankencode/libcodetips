@@ -22,11 +22,8 @@ RubyAutotext::RubyAutotext()
 
 String RubyAutotext::language() const { return "ruby"; }
 String RubyAutotext::name() const { return "autotext"; }
-
 String RubyAutotext::displayName() const { return "Ruby Autotext"; }
-
-String RubyAutotext::description() const
-{
+String RubyAutotext::description() const {
 	return "Speeds up typing source code by automatically inserting redundant text fragments.";
 }
 
