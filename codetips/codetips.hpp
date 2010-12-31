@@ -72,7 +72,7 @@ typedef Array< Ref<Member, Owner> > Members;
 class Tip: public Instance
 {
 public:
-	Tip(int typeId): typeId_(typeId) {}
+	Tip(int typeId = 0): typeId_(typeId) {}
 	inline int typeId() const { return typeId_; }
 private:
 	int typeId_;
@@ -81,7 +81,7 @@ private:
 class TypeTip: public Tip
 {
 public:
-	enum { Id = 0 };
+	enum { Id = 1 };
 	TypeTip(Ref<Type> type)
 		: Tip(Id),
 		  type_(type)
@@ -94,7 +94,7 @@ private:
 class MembersTip: public Tip
 {
 public:
-	enum { Id = 1 };
+	enum { Id = 2 };
 	MembersTip(Ref<Members> members)
 		: Tip(Id),
 		  members_(members)
@@ -114,6 +114,7 @@ public:
 	virtual String copyLine(int line = 0) const = 0;
 	virtual int numberOfLines() const = 0;
 	virtual String indent() const = 0;
+	virtual String indentOf(int line) const = 0;
 	
 	virtual int bytePos() const = 0;
 	virtual int pos() const = 0;

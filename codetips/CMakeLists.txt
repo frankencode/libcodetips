@@ -8,6 +8,7 @@ SET(CODETIPS_HEADER
 	HaxeMessageSyntax.hpp
 	InterpositionServer.hpp
 	CxxAutotext.hpp
+	RubyAutotext.hpp
 )
 
 SET(CODETIPS_SOURCE
@@ -18,6 +19,7 @@ SET(CODETIPS_SOURCE
 	HaxeMessageSyntax.cpp
 	InterpositionServer.cpp
 	CxxAutotext.cpp
+	RubyAutotext.cpp
 )
 
 ADD_LIBRARY(codetips

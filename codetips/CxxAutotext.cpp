@@ -26,25 +26,34 @@ String CxxAutotext::displayName() const { return "C++ Autotext"; }
 
 String CxxAutotext::description() const
 {
-	return "Automatically inserts frequently used mandatory redundancies.";
+	return "Speeds up typing source code by automatically inserting redundant text fragments.";
 }
 
 Ref<Tip, Owner> CxxAutotext::assist(Ref<Context> context, int modifiers, uchar_t key)
 {
+	Ref<Tip, Owner> tip;
+	
 	if (key == '{') {
 		bool appendSemicolon = false;
 		if (context->line() > 0) {
 			String currLine = context->copyLine(context->line());
 			String prevLine = context->copyLine(context->line() - 1);
 			appendSemicolon =
-				currLine.contains("class") || currLine.contains("struct") ||
-				prevLine.contains("class") || prevLine.contains("struct");
+				currLine.contains("class ") || currLine.contains("struct ") || currLine.contains("enum ") ||
+				prevLine.contains("class ") || prevLine.contains("struct ") || currLine.contains("enum ");
 		}
-		if (appendSemicolon)
+		if (appendSemicolon) {
 			context->insert("{};");
-		else
-			context->insert("{}");
+		}
+		else {
+			if ( (context->line() == context->numberOfLines() - 1) ||
+			     (context->indentOf(context->line()) >= context->indentOf(context->line() + 1)) )
+				context->insert("{}");
+			else
+				context->insert("{");
+		}
 		context->move(1);
+		tip = new Tip;
 	}
 	/*else if (key == '(') {
 		context->insert("()");
@@ -56,34 +65,53 @@ Ref<Tip, Owner> CxxAutotext::assist(Ref<Context> context, int modifiers, uchar_t
 	}*/
 	else if (key == '\n') {
 		String currLine = context->copyLine(context->line());
-		if ((currLine.length() > 0) && (context->linePos() > 0)) {
-			uchar_t ch = currLine.get(currLine.first() + context->linePos() - 1);
-			bool autoIndent = false;
+		int len = currLine.length();
+		int cx = context->linePos();
+		if ((len > 0) && (cx > 0)) {
+			uchar_t ch = currLine.get(currLine.first() + cx - 1);
 			if (ch == '{') {
 				String prevLine = context->copyLine(context->line() - 1);
-				autoIndent = !(
-					currLine.contains("class") || currLine.contains("struct") ||
-					prevLine.contains("class") || prevLine.contains("struct")
-				);
+				uchar_t ch2 = (cx < len) ? currLine.get(currLine.first() + cx) : uchar_t(0);
+				String indent = context->indentOf(context->line());
+				if (ch2 == '}') {
+					if (indent != "") context->insert(indent);
+					context->insert("\n");
+				}
+				if (indent != "") context->insert(indent);
 				context->insert("\n");
-				if (autoIndent) {
-					context->insert(context->indent());
-					context->insert("\n");
-					context->move(context->indent().length() + 1);
+				context->move(1 + indent.length());
+				if (!( currLine.contains("class ") || currLine.contains("namespace ") ||
+				       prevLine.contains("class ") || prevLine.contains("namespace ") )) {
+					String indentStep = context->indent();
+					context->insert(indentStep);
+					context->move(indentStep.length());
 				}
-				else {
-					context->insert("\n");
-					context->move(1);
-				}
+				tip = new Tip;
 			}
 			else if (ch == ':') {
-				context->insert(context->indent());
+				String indent = context->indentOf(context->line());
+				String indentStep = context->indent();
+				context->insert(indentStep);
+				if (indent != "") context->insert(indent);
 				context->insert("\n");
-				context->move(context->indent().length() + 1);
+				context->move(1 + indent.length() + indentStep.length());
+				tip = new Tip;
 			}
 		}
 	}
-	return 0;
+	else if (key == '*') {
+		String currLine = context->copyLine(context->line());
+		int len = currLine.length();
+		int cx = context->linePos();
+		if ((len > 0) && (cx > 0)) {
+			if (currLine.get(currLine.first() + cx - 1) == '/') {
+				context->insert("**/");
+				context->move(1);
+			}
+		}
+	}
+	
+	return tip;
 }
 
 } // namespace codetips

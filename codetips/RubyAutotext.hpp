@@ -1,23 +1,23 @@
 /*
- * CxxAutotext.hpp -- C++ autotext generator
+ * RubyAutotext.hpp -- Ruby autotext generator
  *
  * Copyright (c) 2010, Frank Mertens
  *
  * See ../COPYING for the license.
  */
-#ifndef CODETIPS_CXXAUTOTEXT_HPP
-#define CODETIPS_CXXAUTOTEXT_HPP
+#ifndef CODETIPS_RUBYAUTOTEXT_HPP
+#define CODETIPS_RUBYAUTOTEXT_HPP
 
 #include "codetips.hpp"
 
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(CxxAutotext)
+CODETIPS_REGISTRATION_HEADER(RubyAutotext)
 
-class CxxAutotext: public Assistant {
+class RubyAutotext: public Assistant {
 public:
-	CxxAutotext();
+	RubyAutotext();
 	
 	String language() const;
 	String name() const;
@@ -28,4 +28,4 @@ public:
 
 } // namespace codetips
 
-#endif // CODETIPS_CXXAUTOTEXT_HPP
+#endif // CODETIPS_RUBYAUTOTEXT_HPP
