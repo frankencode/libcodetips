@@ -46,6 +46,7 @@ Ref<Tip, Owner> XmlAutotext::assist(Ref<Context> context, int modifiers, uchar_t
 					continue;
 				}
 				if (i1 == cx) break;
+				i0 = i1;
 			}
 			else {
 				break;

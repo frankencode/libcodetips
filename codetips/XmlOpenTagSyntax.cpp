@@ -1,3 +1,11 @@
+/*
+ * XmlOpenTagSyntax.cpp -- syntax of an opening XML tag without closing '>'
+ *
+ * Copyright (c) 2010, Frank Mertens
+ *
+ * See ../COPYING for the license.
+ */
+
 #include "XmlOpenTagSyntax.hpp"
 
 namespace codetips
