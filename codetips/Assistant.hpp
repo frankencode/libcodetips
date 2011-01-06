@@ -49,19 +49,16 @@ private:
 	Ref<Log, Owner> log_;
 };
 
-#define CODETIPS_REGISTRATION_HEADER(SpecialAssistant) \
-class SpecialAssistant; \
+#define CODETIPS_REGISTRATION(SpecialAssistant) \
 class SpecialAssistant ## Registration { \
 public: \
 	SpecialAssistant ## Registration(); \
 }; \
 \
-namespace { SpecialAssistant ## Registration registration_; }
-
-#define CODETIPS_REGISTRATION_IMPL(SpecialAssistant) \
 SpecialAssistant ## Registration::SpecialAssistant ## Registration() { \
 	AssistantManager::instance()->registerAssistant(new SpecialAssistant); \
-}
+} \
+namespace { SpecialAssistant ## Registration registration_; }
 
 } // namespace codetips
 

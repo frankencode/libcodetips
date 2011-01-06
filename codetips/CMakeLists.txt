@@ -12,6 +12,7 @@ SET(CODETIPS_HEADER
 	PythonAutotext.hpp
 	XmlAutotext.hpp
 	XmlOpenTagSyntax.hpp
+	WordPredictor.hpp
 )
 
 SET(CODETIPS_SOURCE
@@ -26,6 +27,7 @@ SET(CODETIPS_SOURCE
 	PythonAutotext.cpp
 	XmlAutotext.cpp
 	XmlOpenTagSyntax.cpp
+	WordPredictor.cpp
 )
 
 ADD_LIBRARY(codetips

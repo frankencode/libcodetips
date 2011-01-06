@@ -17,20 +17,18 @@ namespace ftl {
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(HaxeCodetips)
-
 class HaxeMessageSyntax;
 
 class HaxeCodetips: public Assistant {
 public:
 	HaxeCodetips();
 	
-	virtual String language() const;
-	virtual String name() const;
-	virtual String displayName() const;
-	virtual String description() const;
+	String language() const;
+	String name() const;
+	String displayName() const;
+	String description() const;
 	
-	virtual Ref<Tip, Owner> assist(Ref<Context> context, int modifiers, uchar_t key);
+	Ref<Tip, Owner> assist(Ref<Context> context, int modifiers, uchar_t key);
 	
 private:
 	virtual void update();

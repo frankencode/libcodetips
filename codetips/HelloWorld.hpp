@@ -13,8 +13,6 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(HelloWorld)
-
 class HelloWorld: public Assistant {
 public:
 	HelloWorld();

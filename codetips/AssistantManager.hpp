@@ -26,7 +26,7 @@ public:
 	void registerAssistant(Ref<Assistant> assistant);
 	Ref<AssistantListByLanguage> assistantListByLanguage() const;
 	
-	Ref<Instance, Owner> assist(Ref<Context> context, int modifiers, uchar_t key) const;
+	Ref<Instance, Owner> assist(Ref<Context> context, int modifiers, uchar_t key, const char* language = 0) const;
 	
 private:
 	friend class Singleton<AssistantManager>;

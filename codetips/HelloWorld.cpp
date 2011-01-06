@@ -13,7 +13,7 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_IMPL(HelloWorld)
+CODETIPS_REGISTRATION(HelloWorld)
 
 HelloWorld::HelloWorld()
 {

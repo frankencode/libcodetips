@@ -53,7 +53,7 @@ private:
 class Member: public Instance
 {
 public:
-	Member(String name, Ref<Type> type, String description = "")
+	Member(String name, Ref<Type> type = 0, String description = "")
 		: name_(name),
 		  type_(type),
 		  description_(description)

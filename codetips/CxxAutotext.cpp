@@ -13,7 +13,7 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_IMPL(CxxAutotext)
+CODETIPS_REGISTRATION(CxxAutotext)
 
 CxxAutotext::CxxAutotext()
 {
@@ -38,20 +38,17 @@ Ref<Tip, Owner> CxxAutotext::assist(Ref<Context> context, int modifiers, uchar_t
 		if (context->line() > 0) {
 			String currLine = context->copyLine(context->line());
 			String prevLine = context->copyLine(context->line() - 1);
-			appendSemicolon =
-				currLine.contains("class ") || currLine.contains("struct ") || currLine.contains("enum ") ||
-				prevLine.contains("class ") || prevLine.contains("struct ") || currLine.contains("enum ");
+			appendSemicolon = currLine.contains("class ") || currLine.contains("struct ") || currLine.contains("enum ");
+			if (appendSemicolon)
+				appendSemicolon = !currLine->contains('(');
+			if (!appendSemicolon)
+				if (currLine == "")
+					appendSemicolon = prevLine.contains("class ") || prevLine.contains("struct ") || currLine.contains("enum ");
 		}
-		if (appendSemicolon) {
+		if (appendSemicolon)
 			context->insert("{};");
-		}
-		else {
-			if ( (context->line() == context->numberOfLines() - 1) ||
-			     (context->indentOf(context->line()) >= context->indentOf(context->line() + 1)) )
-				context->insert("{}");
-			else
-				context->insert("{");
-		}
+		else
+			context->insert("{}");
 		context->move(1);
 		tip = new Tip;
 	}
@@ -80,8 +77,9 @@ Ref<Tip, Owner> CxxAutotext::assist(Ref<Context> context, int modifiers, uchar_t
 				if (indent != "") context->insert(indent);
 				context->insert("\n");
 				context->move(1 + indent.length());
-				if (!( currLine.contains("class ") || currLine.contains("namespace ") ||
-				       prevLine.contains("class ") || prevLine.contains("namespace ") )) {
+				if ( (!( currLine.contains("class ") || currLine.contains("namespace ") ||
+				         prevLine.contains("class ") || prevLine.contains("namespace ") )) ||
+				     currLine->contains(')') ) {
 					String indentStep = context->indent();
 					context->insert(indentStep);
 					context->move(indentStep.length());
@@ -99,6 +97,7 @@ Ref<Tip, Owner> CxxAutotext::assist(Ref<Context> context, int modifiers, uchar_t
 			}
 		}
 	}
+	#if 0
 	else if (key == '*') {
 		String currLine = context->copyLine(context->line());
 		int len = currLine.length();
@@ -110,6 +109,7 @@ Ref<Tip, Owner> CxxAutotext::assist(Ref<Context> context, int modifiers, uchar_t
 			}
 		}
 	}
+	#endif
 	
 	return tip;
 }

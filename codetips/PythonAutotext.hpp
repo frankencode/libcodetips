@@ -13,8 +13,6 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(PythonAutotext)
-
 class PythonAutotext: public Assistant
 {
 public:

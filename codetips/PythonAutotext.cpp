@@ -13,7 +13,7 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_IMPL(PythonAutotext)
+CODETIPS_REGISTRATION(PythonAutotext)
 
 PythonAutotext::PythonAutotext()
 {

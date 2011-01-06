@@ -13,8 +13,6 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(CxxAutotext)
-
 class CxxAutotext: public Assistant {
 public:
 	CxxAutotext();

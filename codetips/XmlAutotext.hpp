@@ -11,8 +11,6 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(XmlAutotext)
-
 class XmlOpenTagSyntax;
 
 class XmlAutotext: public Assistant

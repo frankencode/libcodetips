@@ -6,6 +6,7 @@
  * See ../COPYING for the license.
  */
 
+#include <ftl/PrintDebug.hpp> // debug
 #include "AssistantManager.hpp"
 
 namespace codetips
@@ -30,16 +31,22 @@ Ref<AssistantListByLanguage> AssistantManager::assistantListByLanguage() const
 	return assistantListByLanguage_;
 }
 
-Ref<Instance, Owner> AssistantManager::assist(Ref<Context> context, int modifiers, uchar_t key) const
+Ref<Instance, Owner> AssistantManager::assist(Ref<Context> context, int modifiers, uchar_t key, const char* language) const
 {
-	Ref<Instance, Owner> tip = 0;
-	Ref<AssistantList, Owner> list;
-	assistantListByLanguage_->lookup(context->language(), &list);
-	if (list) {
-		AssistantList::Iterator it = list->iterator();
-		while ((it.hasNext()) && (!tip)) {
-			Ref<Assistant> assistant = it.next();
-			tip = assistant->assist(context, modifiers, key);
+	Ref<Tip, Owner> tip;
+	if (!language) {
+		tip = assist(context, modifiers, key, context->language());
+		if (!tip)
+			tip = assist(context, modifiers, key, "any");
+	}
+	else {
+		Ref<AssistantList, Owner> list;
+		if (assistantListByLanguage_->lookup(language, &list)) {
+			AssistantList::Iterator it = list->iterator();
+			while ((it.hasNext()) && (!tip)) {
+				Ref<Assistant> assistant = it.next();
+				tip = assistant->assist(context, modifiers, key);
+			}
 		}
 	}
 	return tip;

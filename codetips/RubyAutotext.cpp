@@ -13,7 +13,7 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_IMPL(RubyAutotext)
+CODETIPS_REGISTRATION(RubyAutotext)
 
 RubyAutotext::RubyAutotext()
 {
@@ -41,7 +41,8 @@ Ref<Tip, Owner> RubyAutotext::assist(Ref<Context> context, int modifiers, uchar_
 		     (currLine.find("begin") == currLine.first()) ||
 		     (currLine.find("while") == currLine.first()) ) {
 			String indent = context->indentOf(context->line());
-			if (!rescue) {
+			String nextIndent = context->indentOf(context->line() + 1);
+			if ((!rescue) && (nextIndent->length() <= indent->length())) {
 				context->insert("end");
 				if (indent != "") context->insert(indent);
 				context->insert("\n");

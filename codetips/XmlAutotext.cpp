@@ -14,7 +14,7 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_IMPL(XmlAutotext)
+CODETIPS_REGISTRATION(XmlAutotext)
 
 XmlAutotext::XmlAutotext()
 	: openTagSyntax_(new XmlOpenTagSyntax)

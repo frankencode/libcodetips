@@ -19,7 +19,7 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_IMPL(HaxeCodetips)
+CODETIPS_REGISTRATION(HaxeCodetips)
 
 HaxeCodetips::HaxeCodetips()
 	: processFactory_(new ProcessFactory),

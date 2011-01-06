@@ -13,8 +13,6 @@
 namespace codetips
 {
 
-CODETIPS_REGISTRATION_HEADER(RubyAutotext)
-
 class RubyAutotext: public Assistant {
 public:
 	RubyAutotext();
